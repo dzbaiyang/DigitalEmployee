@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dept: '供应链',
             status: 'active',
             avatar: '../gif/智胜.gif',
-            joinDate: '2023-01-15',
+            joinDate: '2025-12-01',
             currentTask: '供应链车辆排程作业中.',
-            dailyOutput: '327',
+            dailyOutput: '327 Task',
             efficiency: [85, 90, 88, 95, 92],
             abilities: [95, 88, 92, 98, 90] // [逻辑, 速度, 准确, 创造, 稳定]
         },
@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dept: '客户服务部',
             status: 'active',
             avatar: '../gif/素问.gif',
-            joinDate: '2023-03-10',
+            joinDate: '2024-03-10',
             currentTask: '处理徐家汇新美罗餐厅 KDS屏幕问题..',
-            dailyOutput: '320 次对话',
+            dailyOutput: '121 Task',
             efficiency: [88, 95, 96, 85, 94],
             abilities: [90, 95, 98, 85, 96]
         },
@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dept: '开发部',
             status: 'active',
             avatar: '../gif/酷派拉.gif',
-            joinDate: '2023-06-20',
-            currentTask: '南京市',
-            dailyOutput: '50万条数据处理',
+            joinDate: '2024-09-20',
+            currentTask: '南京市百家湖商圈新址预估中..',
+            dailyOutput: '198 Task',
             efficiency: [92, 98, 95, 90, 96],
             abilities: [98, 96, 99, 88, 95]
         },
@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dept: '法务部',
             status: 'idle',
             avatar: '../gif/合同审核.gif',
-            joinDate: '2023-08-05',
+            joinDate: '2024-10-10',
             currentTask: '待命中',
-            dailyOutput: '0 份合同',
+            dailyOutput: '3 份合同',
             efficiency: [75, 70, 65, 60, 68],
             abilities: [92, 85, 96, 75, 90]
         }
