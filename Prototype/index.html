@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI数字员工管理平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入 FontAwesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入 ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 左侧侧边栏 -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-robot"></i>
+                <span>AI Employee</span>
+            </div>
+            <ul class="menu">
+                <li class="active"><a href="#"><i class="fa-solid fa-chart-line"></i> 仪表盘</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> 员工管理</a></li>
+                <li><a href="#"><i class="fa-solid fa-briefcase"></i> 任务中心</a></li>
+                <li><a href="#"><i class="fa-solid fa-chart-pie"></i> 效益分析</a></li>
+                <li><a href="#"><i class="fa-solid fa-server"></i> 性能监控</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> 设置</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="User">
+                    <div>
+                        <h4>管理员</h4>
+                        <p>admin@company.com</p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <!-- 顶部栏 -->
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="搜索数字员工、任务...">
+                </div>
+                <div class="actions">
+                    <button class="btn-icon"><i class="fa-solid fa-bell"></i></button>
+                    <button class="btn-primary" id="addEmployeeBtn"><i class="fa-solid fa-plus"></i> 新建员工</button>
+                </div>
+            </header>
+
+            <!-- 统计卡片 -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon-box purple"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3>128</h3>
+                        <p>在岗数字员工</p>
+                    </div>
+                    <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="icon-box blue"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-info">
+                        <h3>45,200h</h3>
+                        <p>累计节省工时</p>
+                    </div>
+                    <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> +8%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="icon-box green"><i class="fa-solid fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <h3>99.8%</h3>
+                        <p>任务成功率</p>
+                    </div>
+                    <span class="trend down"><i class="fa-solid fa-minus"></i> 持平</span>
+                </div>
+                <div class="stat-card">
+                    <div class="icon-box orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-info">
+                        <h3>3</h3>
+                        <p>运行异常</p>
+                    </div>
+                    <span class="trend warn"><i class="fa-solid fa-circle-exclamation"></i> 待处理</span>
+                </div>
+            </section>
+
+            <!-- 图表区域 -->
+            <section class="charts-grid">
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>效益分析趋势</h3>
+                        <select class="chart-select">
+                            <option>最近7天</option>
+                            <option>本月</option>
+                        </select>
+                    </div>
+                    <div id="efficiencyChart" class="chart-container"></div>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>实时性能监控</h3>
+                    </div>
+                    <div id="performanceChart" class="chart-container"></div>
+                </div>
+            </section>
+
+            <!-- 员工列表 -->
+            <section class="list-section">
+                <div class="section-header">
+                    <h3>数字员工列表</h3>
+                    <div class="filters">
+                        <select id="statusFilter">
+                            <option value="all">全部状态</option>
+                            <option value="active">运行中</option>
+                            <option value="idle">空闲</option>
+                            <option value="error">异常</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="employee-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>员工信息</th>
+                                <th>职位/角色</th>
+                                <th>状态</th>
+                                <th>当前任务</th>
+                                <th>本日产出</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody">
+                            <!-- JS动态渲染内容 -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 详情模态框 -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-container">
+            <button class="close-modal" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-content">
+                <!-- 侧边：基本信息 -->
+                <div class="detail-sidebar">
+                    <div class="avatar-large">
+                        <img src="" alt="Avatar" id="modalAvatar">
+                        <span class="status-badge" id="modalStatusBadge">运行中</span>
+                    </div>
+                    <h2 id="modalName">数字员工姓名</h2>
+                    <p class="role-text" id="modalRole">财务助理</p>
+                    
+                    <div class="detail-info-list">
+                        <div class="info-item">
+                            <label>ID</label>
+                            <span id="modalId">#1001</span>
+                        </div>
+                        <div class="info-item">
+                            <label>入职日期</label>
+                            <span id="modalDate">2023-10-12</span>
+                        </div>
+                        <div class="info-item">
+                            <label>所属部门</label>
+                            <span id="modalDept">财务部</span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-outline">暂停运行</button>
+                        <button class="btn-outline danger">删除员工</button>
+                    </div>
+                </div>
+                
+                <!-- 主体：能力与监控 -->
+                <div class="detail-main">
+                    <div class="tabs">
+                        <button class="tab-btn active">能力画像</button>
+                        <button class="tab-btn">运行日志</button>
+                        <button class="tab-btn">配置详情</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div class="detail-grid">
+                            <div class="radar-box">
+                                <h4>能力评估</h4>
+                                <div id="abilityRadarChart" style="width: 100%; height: 250px;"></div>
+                            </div>
+                            <div class="stats-box">
+                                <h4>核心指标</h4>
+                                <div class="mini-stat">
+                                    <span>准确率</span>
+                                    <div class="progress-bar"><div class="fill" style="width: 99%"></div></div>
+                                    <span>99%</span>
+                                </div>
+                                <div class="mini-stat">
+                                    <span>处理速度</span>
+                                    <div class="progress-bar"><div class="fill" style="width: 85%"></div></div>
+                                    <span>85/min</span>
+                                </div>
+                                <div class="mini-stat">
+                                    <span>24h在线</span>
+                                    <div class="progress-bar"><div class="fill" style="width: 100%"></div></div>
+                                    <span>Yes</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="log-box">
+                            <h4>最近运行记录</h4>
+                            <ul class="log-list" id="modalLogList">
+                                <!-- JS填充日志 -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+
