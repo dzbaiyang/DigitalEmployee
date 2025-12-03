@@ -32,7 +32,7 @@
                     <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="User">
                     <div>
                         <h4>管理员</h4>
-                        <p>admin@company.com</p>
+                        <p>admin@YumChina.com</p>
                     </div>
                 </div>
             </div>
@@ -145,80 +145,166 @@
 
     <!-- 详情模态框 -->
     <div class="modal-overlay" id="detailModal">
-        <div class="modal-container">
+        <div class="modal-container layout-v2">
             <button class="close-modal" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
-            <div class="modal-content">
-                <!-- 侧边：基本信息 -->
-                <div class="detail-sidebar">
-                    <div class="avatar-large">
+            
+            <!-- 左侧：个人信息 (参考图布局) -->
+            <div class="detail-sidebar-v2">
+                <div class="profile-section">
+                    <div class="avatar-circle">
                         <img src="" alt="Avatar" id="modalAvatar">
-                        <span class="status-badge" id="modalStatusBadge">运行中</span>
                     </div>
-                    <h2 id="modalName">数字员工姓名</h2>
-                    <p class="role-text" id="modalRole">财务助理</p>
-                    
-                    <div class="detail-info-list">
-                        <div class="info-item">
-                            <label>ID</label>
-                            <span id="modalId">#1001</span>
-                        </div>
-                        <div class="info-item">
-                            <label>入职日期</label>
-                            <span id="modalDate">2023-10-12</span>
-                        </div>
-                        <div class="info-item">
-                            <label>所属部门</label>
-                            <span id="modalDept">财务部</span>
-                        </div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="btn-outline">暂停运行</button>
-                        <button class="btn-outline danger">删除员工</button>
+                    <div class="profile-header-text">
+                        <h2 id="modalName">Name</h2>
+                        <p id="modalRole">Role</p>
+                        <span class="status-pill" id="modalStatusBadge">Active</span>
                     </div>
                 </div>
-                
-                <!-- 主体：能力与监控 -->
-                <div class="detail-main">
-                    <div class="tabs">
-                        <button class="tab-btn active">能力画像</button>
-                        <button class="tab-btn">运行日志</button>
-                        <button class="tab-btn">配置详情</button>
+
+                <div class="profile-meta">
+                    <div class="meta-row">
+                        <span class="label">所属部门:</span>
+                        <span class="value" id="modalDept">Marketing</span>
                     </div>
-                    
-                    <div class="tab-content">
-                        <div class="detail-grid">
-                            <div class="radar-box">
-                                <h4>能力评估</h4>
-                                <div id="abilityRadarChart" style="width: 100%; height: 250px;"></div>
-                            </div>
-                            <div class="stats-box">
-                                <h4>核心指标</h4>
-                                <div class="mini-stat">
-                                    <span>准确率</span>
-                                    <div class="progress-bar"><div class="fill" style="width: 99%"></div></div>
-                                    <span>99%</span>
-                                </div>
-                                <div class="mini-stat">
-                                    <span>处理速度</span>
-                                    <div class="progress-bar"><div class="fill" style="width: 85%"></div></div>
-                                    <span>85/min</span>
-                                </div>
-                                <div class="mini-stat">
-                                    <span>24h在线</span>
-                                    <div class="progress-bar"><div class="fill" style="width: 100%"></div></div>
-                                    <span>Yes</span>
-                                </div>
-                            </div>
+                    <div class="meta-row">
+                        <span class="label">入职日期:</span>
+                        <span class="value" id="modalDate">2023-01-01</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="label">工号 ID:</span>
+                        <span class="value" id="modalId">#1001</span>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#"><i class="fa-brands fa-weixin"></i></a>
+                        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#"><i class="fa-solid fa-link"></i></a>
+                    </div>
+                </div>
+
+                <!-- Mini Stats Cards -->
+                <div class="mini-cards-row">
+                    <div class="mini-card">
+                        <div class="card-icon purple"><i class="fa-solid fa-star"></i></div>
+                        <div class="card-text">
+                            <span class="label">综合评分</span>
+                            <span class="value">4.9</span>
                         </div>
-                        
-                        <div class="log-box">
-                            <h4>最近运行记录</h4>
-                            <ul class="log-list" id="modalLogList">
-                                <!-- JS填充日志 -->
-                            </ul>
+                        <button class="mini-add-btn">+</button>
+                    </div>
+                    <div class="mini-card">
+                        <div class="card-icon blue"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="card-text">
+                            <span class="label">算力资源</span>
+                            <span class="value">高</span>
+                        </div>
+                        <button class="mini-add-btn">+</button>
+                    </div>
+                </div>
+
+                <!-- Collaborators / Related -->
+                <div class="related-section">
+                    <h4>协作员工</h4>
+                    <div class="collaborator-list">
+                        <div class="collab-item">
+                            <div class="collab-avatar" style="background: #e74c3c;">数</div>
+                            <div class="collab-info">
+                                <span class="name">数据分析助手</span>
+                                <span class="role">Data Analyst</span>
+                            </div>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                         <div class="collab-item">
+                            <div class="collab-avatar" style="background: #3498db;">语</div>
+                            <div class="collab-info">
+                                <span class="name">语义理解模块</span>
+                                <span class="role">NLP Core</span>
+                            </div>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- 右侧：主内容区 (Task Overview) -->
+            <div class="detail-main-v2">
+                <div class="main-v2-header">
+                    <div class="header-title">
+                        <h3>任务看板</h3>
+                        <div class="v2-tabs">
+                            <button class="v2-tab active" data-target="view-tasks">任务列表</button>
+                            <button class="v2-tab" data-target="view-ability">能力画像</button>
+                            <button class="v2-tab" data-target="view-logs">运行报告</button>
+                        </div>
+                    </div>
+                    <button class="btn-primary small"><i class="fa-solid fa-plus"></i> 新建任务</button>
+                </div>
+
+                <!-- View: Tasks (Kanban) -->
+                <div class="view-content active" id="view-tasks">
+                    <div class="kanban-board">
+                        <!-- Column: To Do -->
+                        <div class="kanban-column">
+                            <div class="k-header">
+                                <span class="dot blue"></span> 待处理 <span class="count">4</span>
+                            </div>
+                            <div class="k-list" id="kanbanTodo">
+                                <!-- JS Injected -->
+                            </div>
+                        </div>
+                        <!-- Column: In Progress -->
+                        <div class="kanban-column">
+                            <div class="k-header">
+                                <span class="dot orange"></span> 进行中 <span class="count">2</span>
+                            </div>
+                            <div class="k-list" id="kanbanProgress">
+                                <!-- JS Injected -->
+                            </div>
+                        </div>
+                        <!-- Column: Done -->
+                        <div class="kanban-column">
+                            <div class="k-header">
+                                <span class="dot green"></span> 已完成 <span class="count">12</span>
+                            </div>
+                            <div class="k-list" id="kanbanDone">
+                                <!-- JS Injected -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View: Ability (原有的雷达图等) -->
+                <div class="view-content" id="view-ability">
+                    <div class="detail-grid">
+                        <div class="radar-box">
+                            <h4>能力评估</h4>
+                            <div id="abilityRadarChart" style="width: 100%; height: 250px;"></div>
+                        </div>
+                        <div class="stats-box">
+                            <h4>核心指标</h4>
+                            <div class="mini-stat">
+                                <span>准确率</span>
+                                <div class="progress-bar"><div class="fill" style="width: 99%"></div></div>
+                                <span>99%</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span>处理速度</span>
+                                <div class="progress-bar"><div class="fill" style="width: 85%"></div></div>
+                                <span>85/min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View: Logs -->
+                <div class="view-content" id="view-logs">
+                    <div class="log-box full-height">
+                        <h4>运行日志</h4>
+                        <ul class="log-list" id="modalLogList">
+                            <!-- JS Injected -->
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

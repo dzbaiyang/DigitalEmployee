@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 'AI-1002',
             name: '素问',
             role: '智能客服',
-            dept: '客户服务部',
+            dept: '一站式服务平台',
             status: 'active',
             avatar: '../gif/素问.gif',
             joinDate: '2024-03-10',
@@ -196,9 +196,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.getElementById('closeModal');
     let abilityChart = null;
 
+    // Tab Switching
+    const v2Tabs = document.querySelectorAll('.v2-tab');
+    const v2Views = document.querySelectorAll('.view-content');
+
+    v2Tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Toggle Tab Class
+            v2Tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Toggle View
+            const targetId = tab.getAttribute('data-target');
+            v2Views.forEach(v => {
+                if (v.id === targetId) {
+                    v.classList.add('active');
+                    // Resize chart if we switched to ability view
+                    if (targetId === 'view-ability' && abilityChart) {
+                         setTimeout(() => abilityChart.resize(), 50);
+                    }
+                } else {
+                    v.classList.remove('active');
+                }
+            });
+        });
+    });
+
     function openDetailModal(empId) {
         const emp = employees.find(e => e.id === empId);
         if (!emp) return;
+
+        // Reset Tabs to first one
+        if(v2Tabs.length > 0) v2Tabs[0].click();
 
         // Populate Basic Info
         document.getElementById('modalAvatar').src = emp.avatar;
@@ -210,8 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const statusBadge = document.getElementById('modalStatusBadge');
         statusBadge.innerText = emp.status === 'active' ? '运行中' : (emp.status === 'idle' ? '空闲' : '异常');
-        statusBadge.style.background = emp.status === 'active' ? '#2ecc71' : (emp.status === 'idle' ? '#f1c40f' : '#e74c3c');
-
+        
         // Populate Logs (Mock)
         const logList = document.getElementById('modalLogList');
         logList.innerHTML = `
@@ -219,6 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
             <li><span class="time">09:15</span> 系统自检通过</li>
             <li><span class="time">09:00</span> 启动运行</li>
         `;
+
+        // Render Kanban Board
+        renderKanban(emp);
 
         // Init Radar Chart
         if (abilityChart) {
@@ -229,35 +260,152 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setTimeout(() => {
             const chartDom = document.getElementById('abilityRadarChart');
-            abilityChart = echarts.init(chartDom);
-            abilityChart.setOption({
-                backgroundColor: 'transparent',
-                radar: {
-                    indicator: [
-                        { name: '逻辑', max: 100 },
-                        { name: '速度', max: 100 },
-                        { name: '准确', max: 100 },
-                        { name: '创造', max: 100 },
-                        { name: '稳定', max: 100 }
-                    ],
-                    shape: 'circle',
-                    splitNumber: 5,
-                    axisName: { color: '#a0a0a0' },
-                    splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-                    splitArea: { show: false },
-                    axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } }
-                },
-                series: [{
-                    type: 'radar',
-                    data: [{
-                        value: emp.abilities,
-                        name: '能力评估',
-                        itemStyle: { color: '#6c5dd3' },
-                        areaStyle: { color: 'rgba(108, 93, 211, 0.4)' }
+            if (chartDom) {
+                abilityChart = echarts.init(chartDom);
+                abilityChart.setOption({
+                    backgroundColor: 'transparent',
+                    radar: {
+                        indicator: [
+                            { name: '逻辑', max: 100 },
+                            { name: '速度', max: 100 },
+                            { name: '准确', max: 100 },
+                            { name: '创造', max: 100 },
+                            { name: '稳定', max: 100 }
+                        ],
+                        shape: 'circle',
+                        splitNumber: 5,
+                        axisName: { color: '#a0a0a0' },
+                        splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+                        splitArea: { show: false },
+                        axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } }
+                    },
+                    series: [{
+                        type: 'radar',
+                        data: [{
+                            value: emp.abilities,
+                            name: '能力评估',
+                            itemStyle: { color: '#6c5dd3' },
+                            areaStyle: { color: 'rgba(108, 93, 211, 0.4)' }
+                        }]
                     }]
-                }]
-            });
+                });
+            }
         }, 100);
+    }
+
+    function generateTasksForRole(emp) {
+        const tasks = [];
+        
+        // Common tasks for all
+        tasks.push({ title: '系统自检与健康度扫描', status: 'done', tag: '中', tagClass: 'medium' });
+        tasks.push({ title: '知识库增量更新', status: 'done', tag: '低', tagClass: '' });
+
+        // Role specific tasks
+        if (emp.role.includes('供应链')) {
+            tasks.push({ title: '实时库存水位预警分析', status: 'progress', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '物流路径动态优化 (Route-66)', status: 'todo', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '供应商交付风险评估报告', status: 'todo', tag: '中', tagClass: 'medium' });
+            tasks.push({ title: '季度需求预测模型训练', status: 'done', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '紧急补货计划生成', status: 'todo', tag: '高', tagClass: 'high' });
+        } else if (emp.role.includes('客服')) {
+            tasks.push({ title: '全渠道客户情绪实时监控', status: 'progress', tag: '高', tagClass: 'high' });
+            // 新知识发现类任务
+            tasks.push({ title: '新产品知识点自动提取', status: 'todo', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '未识别用户意图聚类分析', status: 'todo', tag: '中', tagClass: 'medium' });
+            tasks.push({ title: '知识库缺口智能补全', status: 'todo', tag: '中', tagClass: 'medium' });
+            tasks.push({ title: '竞品服务话术新动向捕获', status: 'todo', tag: '低', tagClass: '' });
+            
+            tasks.push({ title: '多语言服务模型校准', status: 'done', tag: '中', tagClass: 'medium' });
+            tasks.push({ title: '客户满意度调查结果分析', status: 'done', tag: '中', tagClass: 'medium' });
+        } else if (emp.role.includes('选址')) {
+            tasks.push({ title: '目标商圈人流热力图分析', status: 'progress', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '竞品分布调研 (半径3km)', status: 'done', tag: '中', tagClass: 'medium' });
+            tasks.push({ title: '新址租金收益率(ROI)测算', status: 'todo', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '消费群体画像深度分析', status: 'done', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '现场环境评估报告生成', status: 'todo', tag: '中', tagClass: 'medium' });
+        } else if (emp.role.includes('合同')) {
+            tasks.push({ title: '待审合同法律合规性扫描', status: 'progress', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '异常条款自动识别与标记', status: 'todo', tag: '高', tagClass: 'high' });
+            tasks.push({ title: '历史合同电子归档', status: 'done', tag: '低', tagClass: '' });
+            tasks.push({ title: '供应商资质自动核查', status: 'todo', tag: '中', tagClass: 'medium' });
+            tasks.push({ title: '签署流程节点状态更新', status: 'done', tag: '中', tagClass: 'medium' });
+        } else {
+            // Fallback
+            tasks.push({ title: '日常数据清洗', status: 'todo', tag: '低', tagClass: '' });
+            tasks.push({ title: '算法模型性能调优', status: 'todo', tag: '中', tagClass: 'medium' });
+        }
+
+        // Add current task if active
+        if (emp.currentTask && emp.currentTask !== '待命中') {
+            tasks.push({ title: emp.currentTask, status: 'progress', tag: '高', tagClass: 'high' });
+        }
+
+        // Assign random IDs
+        return tasks.map((t, i) => ({ ...t, id: i + 1 }));
+    }
+
+    function renderKanban(emp) {
+        const todoList = document.getElementById('kanbanTodo');
+        const progressList = document.getElementById('kanbanProgress');
+        const doneList = document.getElementById('kanbanDone');
+
+        if (!todoList) return;
+
+        // Clear lists
+        todoList.innerHTML = '';
+        progressList.innerHTML = '';
+        doneList.innerHTML = '';
+
+        // Generate Mock Tasks based on Role
+        const tasks = generateTasksForRole(emp);
+        
+        // Counters
+        let todoCount = 0;
+        let progressCount = 0;
+        let doneCount = 0;
+
+        tasks.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'kanban-card';
+            card.innerHTML = `
+                <div class="k-card-tags">
+                    <span class="k-tag ${t.tagClass}">${t.tag} 优先级</span>
+                </div>
+                <div class="k-card-title">${t.title}</div>
+                <div class="k-card-desc">由调度 AI-00${Math.floor(Math.random()*9)} 自动分配。</div>
+                <div class="k-card-footer">
+                    <span><i class="fa-regular fa-comment"></i> ${Math.floor(Math.random()*5)}</span>
+                    <span><i class="fa-solid fa-paperclip"></i> ${Math.floor(Math.random()*3)}</span>
+                </div>
+            `;
+
+            if (t.status === 'done') {
+                doneList.appendChild(card);
+                doneCount++;
+            } else if (t.status === 'progress') {
+                progressList.appendChild(card);
+                progressCount++;
+            } else {
+                todoList.appendChild(card);
+                todoCount++;
+            }
+        });
+
+        // Update Counters in DOM
+        // Assumes structure: .kanban-column > .k-header > .count
+        // We find the .count element relative to the list element
+        if (todoList.previousElementSibling) {
+            const countSpan = todoList.previousElementSibling.querySelector('.count');
+            if (countSpan) countSpan.innerText = todoCount;
+        }
+        if (progressList.previousElementSibling) {
+            const countSpan = progressList.previousElementSibling.querySelector('.count');
+            if (countSpan) countSpan.innerText = progressCount;
+        }
+        if (doneList.previousElementSibling) {
+            const countSpan = doneList.previousElementSibling.querySelector('.count');
+            if (countSpan) countSpan.innerText = doneCount;
+        }
     }
 
     closeModalBtn.addEventListener('click', () => {
