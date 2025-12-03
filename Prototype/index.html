@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI数字员工管理平台</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/approval.css">
+    <link rel="stylesheet" href="css/application.css">
+    <link rel="stylesheet" href="css/realtime.css">
+    <link rel="stylesheet" href="css/wizard.css">
+    <link rel="stylesheet" href="css/wizard-custom.css">
+    <link rel="stylesheet" href="css/deployment.css">
     <!-- 引入 FontAwesome 图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 引入 ECharts -->
@@ -15,15 +21,16 @@
         <!-- 左侧侧边栏 -->
         <nav class="sidebar">
             <div class="logo">
-                <i class="fa-solid fa-robot"></i>
-                <span>AI Employee</span>
+                <img src="../Materials/yumchina.png" alt="YumChina Logo" class="brand-logo">
+                <span>百胜数字员工管理平台</span>
             </div>
             <ul class="menu">
-                <li class="active"><a href="#"><i class="fa-solid fa-chart-line"></i> 仪表盘</a></li>
-                <li><a href="#"><i class="fa-solid fa-users"></i> 员工管理</a></li>
-                <li><a href="#"><i class="fa-solid fa-briefcase"></i> 任务中心</a></li>
-                <li><a href="#"><i class="fa-solid fa-chart-pie"></i> 效益分析</a></li>
-                <li><a href="#"><i class="fa-solid fa-server"></i> 性能监控</a></li>
+                <li class="active"><a href="#"><i class="fa-solid fa-chart-line"></i> 总览</a></li>
+                <li><a href="#" id="navApproval"><i class="fa-solid fa-file-signature"></i> 入职审批 <span class="sidebar-badge">1</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> 员工花名册</a></li>
+                <li><a href="#"><i class="fa-solid fa-briefcase"></i> 任务看板</a></li>
+                <li><a href="#"><i class="fa-solid fa-chart-pie"></i> 效能洞察</a></li>
+                <li><a href="#"><i class="fa-solid fa-server"></i> 运营监控</a></li>
                 <li class="divider"></li>
                 <li><a href="#"><i class="fa-solid fa-gear"></i> 设置</a></li>
             </ul>
@@ -63,41 +70,50 @@
                     <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
                 </div>
                 <div class="stat-card">
-                    <div class="icon-box blue"><i class="fa-solid fa-clock"></i></div>
+                    <div class="icon-box blue"><i class="fa-solid fa-sack-dollar"></i></div>
                     <div class="stat-info">
-                        <h3>45,200h</h3>
-                        <p>累计节省工时</p>
+                        <h3>¥ 9.2w</h3>
+                        <p>约节省成本</p>
                     </div>
                     <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> +8%</span>
                 </div>
                 <div class="stat-card">
                     <div class="icon-box green"><i class="fa-solid fa-check-circle"></i></div>
                     <div class="stat-info">
-                        <h3>99.8%</h3>
-                        <p>任务成功率</p>
+                        <h3>184 Days</h3>
+                        <p>约节省人效</p>
                     </div>
-                    <span class="trend down"><i class="fa-solid fa-minus"></i> 持平</span>
+                    <span class="trend down"></span>
                 </div>
                 <div class="stat-card">
-                    <div class="icon-box orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="icon-box orange"><i class="fa-solid fa-file-circle-exclamation"></i></div>
                     <div class="stat-info">
                         <h3>3</h3>
-                        <p>运行异常</p>
+                        <p>需人工复核</p>
                     </div>
                     <span class="trend warn"><i class="fa-solid fa-circle-exclamation"></i> 待处理</span>
+                </div>
+                <!-- 新增：实时任务处理数 -->
+                <div class="stat-card">
+                    <div class="icon-box cyan"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="stat-info">
+                        <h3 id="realTimeTasks">172</h3>
+                        <p>实时任务处理量</p>
+                    </div>
+                    <span class="trend up flashing"><i class="fa-solid fa-activity"></i> Running</span>
                 </div>
             </section>
 
             <!-- 员工列表 -->
             <section class="list-section">
                 <div class="section-header">
-                    <h3>数字员工列表</h3>
+                    <h3>数字员工花名册</h3>
                     <div class="filters">
                         <select id="statusFilter">
                             <option value="all">全部状态</option>
-                            <option value="active">运行中</option>
-                            <option value="idle">空闲</option>
-                            <option value="error">异常</option>
+                            <option value="active">业务处理中</option>
+                            <option value="idle">待命中</option>
+                            <option value="error">需复核</option>
                         </select>
                     </div>
                 </div>
@@ -105,12 +121,12 @@
                     <table class="employee-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>工号</th>
                                 <th>员工信息</th>
-                                <th>职位/角色</th>
+                                <th>岗位/职能</th>
                                 <th>状态</th>
-                                <th>当前任务</th>
-                                <th>本日产出</th>
+                                <th>当前业务事项</th>
+                                <th>今日业务贡献</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -125,7 +141,7 @@
             <section class="charts-grid">
                 <div class="chart-card">
                     <div class="card-header">
-                        <h3>效益分析趋势</h3>
+                        <h3>人效替代趋势</h3>
                         <select class="chart-select">
                             <option>最近7天</option>
                             <option>本月</option>
@@ -135,7 +151,7 @@
                 </div>
                 <div class="chart-card">
                     <div class="card-header">
-                        <h3>实时性能监控</h3>
+                        <h3>业务场景分布</h3>
                     </div>
                     <div id="performanceChart" class="chart-container"></div>
                 </div>
@@ -145,6 +161,7 @@
 
     <!-- 详情模态框 -->
     <div class="modal-overlay" id="detailModal">
+        <!-- ... (Existing Detail Modal Content) ... -->
         <div class="modal-container layout-v2">
             <button class="close-modal" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
             
@@ -163,15 +180,15 @@
 
                 <div class="profile-meta">
                     <div class="meta-row">
-                        <span class="label">所属部门:</span>
+                        <span class="label">所属中心:</span>
                         <span class="value" id="modalDept">Marketing</span>
                     </div>
                     <div class="meta-row">
-                        <span class="label">入职日期:</span>
+                        <span class="label">上岗日期:</span>
                         <span class="value" id="modalDate">2023-01-01</span>
                     </div>
                     <div class="meta-row">
-                        <span class="label">工号 ID:</span>
+                        <span class="label">员工工号:</span>
                         <span class="value" id="modalId">#1001</span>
                     </div>
                     <div class="social-icons">
@@ -186,7 +203,7 @@
                     <div class="mini-card">
                         <div class="card-icon purple"><i class="fa-solid fa-star"></i></div>
                         <div class="card-text">
-                            <span class="label">综合评分</span>
+                            <span class="label">业务评分</span>
                             <span class="value">4.9</span>
                         </div>
                         <button class="mini-add-btn">+</button>
@@ -194,7 +211,7 @@
                     <div class="mini-card">
                         <div class="card-icon blue"><i class="fa-solid fa-bolt"></i></div>
                         <div class="card-text">
-                            <span class="label">算力资源</span>
+                            <span class="label">算力响应</span>
                             <span class="value">高</span>
                         </div>
                         <button class="mini-add-btn">+</button>
@@ -232,11 +249,11 @@
                         <h3>任务看板</h3>
                         <div class="v2-tabs">
                             <button class="v2-tab active" data-target="view-tasks">任务列表</button>
-                            <button class="v2-tab" data-target="view-ability">能力画像</button>
-                            <button class="v2-tab" data-target="view-logs">运行报告</button>
+                            <button class="v2-tab" data-target="view-ability">胜任力模型</button>
+                            <button class="v2-tab" data-target="view-logs">执行报告</button>
                         </div>
                     </div>
-                    <button class="btn-primary small"><i class="fa-solid fa-plus"></i> 新建任务</button>
+                    <button class="btn-primary small"><i class="fa-solid fa-plus"></i> 指派新任务</button>
                 </div>
 
                 <!-- View: Tasks (Kanban) -->
@@ -276,18 +293,18 @@
                 <div class="view-content" id="view-ability">
                     <div class="detail-grid">
                         <div class="radar-box">
-                            <h4>能力评估</h4>
+                            <h4>岗位胜任力</h4>
                             <div id="abilityRadarChart" style="width: 100%; height: 250px;"></div>
                         </div>
                         <div class="stats-box">
-                            <h4>核心指标</h4>
+                            <h4>关键绩效指标 (KPI)</h4>
                             <div class="mini-stat">
-                                <span>准确率</span>
+                                <span>业务合规率</span>
                                 <div class="progress-bar"><div class="fill" style="width: 99%"></div></div>
                                 <span>99%</span>
                             </div>
                             <div class="mini-stat">
-                                <span>处理速度</span>
+                                <span>单据处理时效</span>
                                 <div class="progress-bar"><div class="fill" style="width: 85%"></div></div>
                                 <span>85/min</span>
                             </div>
@@ -309,7 +326,382 @@
         </div>
     </div>
 
+    <!-- 入职审批模态框 (New Approval Modal) -->
+    <div class="modal-overlay" id="approvalModal">
+        <div class="modal-container approval-layout">
+            <button class="close-modal" id="closeApprovalModal"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="approval-header">
+                <div class="app-meta">
+                    <h3><i class="fa-solid fa-file-import"></i> 数字员工注册申请</h3>
+                    <span class="app-id">申请单号: REQ-20231204-001</span>
+                </div>
+                <div class="app-status">
+                    <span class="status-dot processing"></span> 流程分析监控中
+                </div>
+            </div>
+
+            <div class="approval-body">
+                <!-- Left: Configuration -->
+                <div class="approval-config">
+                    <h4><i class="fa-solid fa-robot"></i> 拟入职员工配置</h4>
+                    <div class="config-card">
+                        <div class="config-header-row">
+                             <div class="config-avatar">
+                                <img src="../gif/合同审核.gif" alt="合同助手">
+                            </div>
+                            <div class="config-info-col">
+                                <div class="config-row highlight">
+                                    <span class="label">创建模式:</span>
+                                    <span class="value badge-purple"><i class="fa-solid fa-wand-magic-sparkles"></i> 流程资产克隆</span>
+                                </div>
+                                <div class="config-row">
+                                    <span class="label">关联流程:</span>
+                                    <span class="value">合同法务审核标准流 (L-003)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="form-group">
+                            <label>拟定姓名</label>
+                            <input type="text" value="合同助手 (法务合规)" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>拟定岗位</label>
+                            <input type="text" value="法务部 - 智能审核专员" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>已植入能力模块</label>
+                            <div class="tags">
+                                <span class="tag">合同风险条款识别</span>
+                                <span class="tag">合规性自动扫描</span>
+                                <span class="tag">历史合同比对</span>
+                                <span class="tag">电子签章验证</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Process Analytics -->
+                <div class="approval-process">
+                    <h4><i class="fa-solid fa-chart-network"></i> 流程运营分析平台监控</h4>
+                    
+                    <div class="process-timeline">
+                        <div class="step completed">
+                            <div class="step-icon"><i class="fa-solid fa-file-pen"></i></div>
+                            <div class="step-content">
+                                <h5>法务部提交</h5>
+                                <span class="time">10:00 AM · 法务总监-王总</span>
+                            </div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div class="step-content">
+                                <h5>资质预审 (System)</h5>
+                                <span class="time">10:01 AM · 自动通过</span>
+                                <span class="metric good">耗时 1s</span>
+                            </div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-icon"><i class="fa-solid fa-user-tie"></i></div>
+                            <div class="step-content">
+                                <h5>管理员审批</h5>
+                                <span class="time">当前环节</span>
+                                <span class="metric warn">已等待 2h 15m</span>
+                            </div>
+                        </div>
+                        <div class="step pending">
+                            <div class="step-icon"><i class="fa-solid fa-server"></i></div>
+                            <div class="step-content">
+                                <h5>资源部署 & 初始化</h5>
+                                <span class="time">预计耗时 5min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="process-charts">
+                        <div class="mini-chart-box">
+                            <h5>流程合规性检测</h5>
+                            <div class="progress-bar-thick">
+                                <div class="fill green" style="width: 100%">100% 合规</div>
+                            </div>
+                        </div>
+                        <div class="mini-chart-box">
+                            <h5>预计ROI分析</h5>
+                            <div class="roi-stat">
+                                <span><i class="fa-solid fa-arrow-trend-up"></i> 预计节省 1.5 FTE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="approval-footer">
+                <button class="btn-text">查看完整申请材料</button>
+                <div class="actions">
+                    <button class="btn-secondary">驳回申请</button>
+                    <button class="btn-primary" id="approveBtn"><i class="fa-solid fa-check"></i> 批准入职 & 部署</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建员工向导模态框 -->
+    <div class="modal-overlay" id="createEmployeeModal">
+        <div class="modal-container wizard-layout">
+            <button class="close-modal" id="closeCreateModal"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="wizard-header">
+                <h3><i class="fa-solid fa-user-plus"></i> 发起数字员工新建申请</h3>
+                <div class="step-indicator">
+                    <div class="step-item active" data-step="1">1. 基础画像</div>
+                    <div class="step-line"></div>
+                    <div class="step-item" data-step="2">2. 流程能力匹配</div>
+                    <div class="step-line"></div>
+                    <div class="step-item" data-step="3">3. 确认提交</div>
+                </div>
+            </div>
+
+            <div class="wizard-body">
+                <!-- Step 1: Basic Info -->
+                <div class="wizard-step active" id="step1">
+                    <div class="form-section">
+                        <label>选择形象 (Avatar)</label>
+                        <div class="avatar-selector">
+                            <div class="avatar-option selected" data-src="../gif/智胜.gif"><img src="../gif/智胜.gif"></div>
+                            <div class="avatar-option" data-src="../gif/素问.gif"><img src="../gif/素问.gif"></div>
+                            <div class="avatar-option" data-src="../gif/酷派拉.gif"><img src="../gif/酷派拉.gif"></div>
+                            <div class="avatar-option" data-src="../gif/合同审核.gif"><img src="../gif/合同审核.gif"></div>
+                            <div class="avatar-option" data-src="../gif/宝宝.gif"><img src="../gif/宝宝.gif"></div>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>拟定姓名</label>
+                            <input type="text" id="newEmpName" placeholder="例如：财务小助手">
+                        </div>
+                        <div class="form-group">
+                            <label>拟定职位</label>
+                            <input type="text" id="newEmpRole" placeholder="例如：初级会计专员">
+                        </div>
+                        <div class="form-group">
+                            <label>所属部门</label>
+                            <select id="newEmpDept">
+                                <option>财务部</option>
+                                <option>人力资源部</option>
+                                <option>供应链</option>
+                                <option>法务部</option>
+                                <option>开发部</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Capability Matching -->
+                <div class="wizard-step" id="step2">
+                    <div class="info-box">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p>系统已接入<b>流程运营分析平台</b>，请选择业务场景，自动匹配标准流程资产。</p>
+                    </div>
+                    <div class="capability-selector">
+                        <label>目标业务场景</label>
+                        <select class="full-width" id="bizScenario">
+                            <option value="finance">费用报销审核 (SAP-FICO)</option>
+                            <option value="hr">员工入职指引 (HR-Onboarding)</option>
+                            <option value="supply">库存自动补货 (SCM-Replenishment)</option>
+                        </select>
+                    </div>
+                    <div class="asset-preview">
+                        <h4><i class="fa-solid fa-link"></i> 拟关联流程资产</h4>
+                        <div class="asset-tags" id="assetTags">
+                            <span class="tag"><i class="fa-solid fa-cube"></i> 发票真伪查验接口</span>
+                            <span class="tag"><i class="fa-solid fa-cube"></i> 报销标准校验规则</span>
+                            <span class="tag"><i class="fa-solid fa-cube"></i> 凭证自动生成机器人</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review -->
+                <div class="wizard-step" id="step3">
+                    <div class="review-card">
+                        <div class="review-row">
+                            <span class="label">头像:</span>
+                            <img src="" id="reviewAvatar" class="review-avatar">
+                        </div>
+                        <div class="review-row">
+                            <span class="label">姓名:</span>
+                            <span class="value" id="reviewName">-</span>
+                        </div>
+                        <div class="review-row">
+                            <span class="label">职位:</span>
+                            <span class="value" id="reviewRole">-</span>
+                        </div>
+                        <div class="review-row">
+                            <span class="label">关联资产:</span>
+                            <span class="value" id="reviewAssets">3 项流程资产</span>
+                        </div>
+                    </div>
+                    <div class="success-tip">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <p>提交后将自动在<b>运营平台</b>发起需求申请单，并关联上述流程资产。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wizard-footer">
+                <button class="btn-secondary" id="prevBtn" style="display:none">上一步</button>
+                <button class="btn-primary" id="nextBtn">下一步</button>
+                <button class="btn-primary" id="submitCreateBtn" style="display:none">提交申请</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建员工申请模态框 (New Employee Application Modal) - NEW WIZARD -->
+    <div class="modal-overlay" id="newEmployeeModal">
+        <div class="modal-container size-xl wizard-dark-theme">
+            <button class="close-modal" id="closeNewEmployeeModal"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="wizard-custom-body">
+                <!-- Wizard Header -->
+                <div style="text-align: center; margin-bottom: 20px; padding-top: 30px;">
+                    <h2 style="margin: 0 0 10px 0; font-size: 1.8rem; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><i class="fa-solid fa-user-plus"></i> 创建数字员工</h2>
+                    <p style="color: #666; font-size: 0.9rem; letter-spacing: 1px;">POWERED BY DIGITAL EMPLOYEE TRAINING GROUND</p>
+                </div>
+
+                <!-- Step Navigation -->
+                <div class="wizard-steps">
+                    <div class="w-step active" data-step="1">
+                        <div class="w-step-num">1</div>
+                        <span>基础画像</span>
+                    </div>
+                    <div class="w-step" data-step="2">
+                        <div class="w-step-num">2</div>
+                        <span>数字员工训练场</span>
+                    </div>
+                    <div class="w-step" data-step="3">
+                        <div class="w-step-num">3</div>
+                        <span>确认与实例化</span>
+                    </div>
+                </div>
+
+                <!-- Step Content Container -->
+                <div class="step-content-container">
+                    
+                    <!-- Step 1: Identity (Left/Right Split) -->
+                    <div class="step-view active" id="stepView1">
+                        <div class="identity-section">
+                            <!-- Left: Avatar Grid -->
+                            <div class="avatar-grid">
+                                <!-- Contract Assistant (Default) -->
+                                <div class="avatar-item selected" data-src="../gif/合同审核.gif">
+                                    <img src="../gif/合同审核.gif">
+                                </div>
+                                <!-- Cartoons -->
+                                <div class="avatar-item" data-src="../Materials/头像1.png">
+                                    <img src="../Materials/头像1.png">
+                                </div>
+                                <div class="avatar-item" data-src="../Materials/头像2.png">
+                                    <img src="../Materials/头像2.png">
+                                </div>
+                                <div class="avatar-item" data-src="../Materials/头像3.png">
+                                    <img src="../Materials/头像3.png">
+                                </div>
+                                <div class="avatar-item" data-src="../Materials/头像4.png">
+                                    <img src="../Materials/头像4.png">
+                                </div>
+                            </div>
+
+                            <!-- Right: Form -->
+                            <div class="form-area-wrapper">
+                                <div class="form-row">
+                                    <div class="custom-input-group">
+                                        <label>拟定姓名</label>
+                                        <input type="text" class="custom-input" id="wizName" value="合同小助手">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="custom-input-group">
+                                        <label>拟定职位</label>
+                                        <input type="text" class="custom-input" id="wizRole" value="法务审核专员">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="custom-input-group">
+                                        <label>所属部门</label>
+                                        <select class="custom-input" id="wizDept">
+                                            <option selected>法务部</option>
+                                            <option>财务部</option>
+                                            <option>人力资源部</option>
+                                            <option>供应链部</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Training Ground (The New Core) -->
+                    <div class="step-view" id="stepView2">
+                        <div class="training-ground">
+                            <!-- Left: Model List -->
+                            <div class="model-list" id="modelListContainer">
+                                <!-- JS Injected Cards -->
+                            </div>
+                            <!-- Right: Preview -->
+                            <div class="model-preview" id="modelPreviewContainer">
+                                <!-- JS Injected Details -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Review -->
+                    <div class="step-view" id="stepView3">
+                        <div id="reviewContainer" class="review-container-full">
+                            <!-- JS Injected Review -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="wizard-footer">
+                    <button class="btn-secondary" id="wizPrevBtn" style="display: none;">上一步</button>
+                    <button class="btn-primary" id="wizNextBtn">下一步 <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn-primary" id="wizSubmitBtn" style="display: none; background: #4cd964; border-color: #4cd964;">
+                        <i class="fa-solid fa-rocket"></i> 实例化数字员工
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Deployment Overlay Animation -->
+    <div class="deployment-overlay" id="deploymentOverlay">
+        <div class="deployment-container">
+            <div class="deployment-avatar">
+                <img src="" id="deployAvatar" alt="Deploying...">
+                <div class="scan-line"></div>
+            </div>
+            <h2 class="deploy-title">正在实例化数字员工...</h2>
+            <p class="deploy-subtitle">接入百胜运营中台 | 挂载核心模型 | 同步业务数据</p>
+            
+            <div class="deploy-progress-container">
+                <div class="deploy-progress-bar"></div>
+            </div>
+            
+            <div class="deploy-steps">
+                <div class="d-step active"><i class="fa-solid fa-circle-check"></i> 基础画像生成</div>
+                <div class="d-step active"><i class="fa-solid fa-circle-check"></i> 核心模型加载</div>
+                <div class="d-step processing" id="stepMCP"><i class="fa-solid fa-spinner fa-spin"></i> 技能力挂载</div>
+                <div class="d-step pending" id="stepReg"><i class="fa-solid fa-circle"></i> 提交待审批</div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
+    <script src="js/approval.js"></script>
+    <script src="js/wizard-custom.js"></script>
 </body>
 </html>
 

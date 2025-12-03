@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             avatar: '../gif/智胜.gif',
             joinDate: '2025-12-01',
             currentTask: '供应链车辆排程作业中.',
-            dailyOutput: '327 Task',
+            dailyOutput: '处理单据 327 笔',
             efficiency: [85, 90, 88, 95, 92],
             abilities: [95, 88, 92, 98, 90] // [逻辑, 速度, 准确, 创造, 稳定]
         },
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             avatar: '../gif/素问.gif',
             joinDate: '2024-03-10',
             currentTask: '处理徐家汇新美罗餐厅 KDS屏幕问题..',
-            dailyOutput: '121 Task',
+            dailyOutput: '接待人次 121',
             efficiency: [88, 95, 96, 85, 94],
             abilities: [90, 95, 98, 85, 96]
         },
@@ -36,22 +36,22 @@ document.addEventListener('DOMContentLoaded', function() {
             avatar: '../gif/酷派拉.gif',
             joinDate: '2024-09-20',
             currentTask: '南京市百家湖商圈新址预估中..',
-            dailyOutput: '198 Task',
+            dailyOutput: '评估报告 198 份',
             efficiency: [92, 98, 95, 90, 96],
             abilities: [98, 96, 99, 88, 95]
         },
         {
             id: 'AI-1004',
-            name: '合同助手',
-            role: '合同审核专员',
-            dept: '法务部',
-            status: 'idle',
-            avatar: '../gif/合同审核.gif',
+            name: '宝宝',
+            role: 'HR 政策咨询顾问',
+            dept: '人力资源部',
+            status: 'active', // Active now
+            avatar: '../gif/宝宝.gif',
             joinDate: '2024-10-10',
-            currentTask: '待命中',
-            dailyOutput: '3 份合同',
-            efficiency: [75, 70, 65, 60, 68],
-            abilities: [92, 85, 96, 75, 90]
+            currentTask: '解答关于“2024新房补政策”的咨询...',
+            dailyOutput: '服务员工 45 人',
+            efficiency: [95, 92, 90, 88, 94],
+            abilities: [98, 95, 100, 90, 92]
         }
     ];
 
@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusFilter = document.getElementById('statusFilter');
 
     function renderTable(filter = 'all') {
+        if(!tableBody) return;
         tableBody.innerHTML = '';
         
         const filteredData = employees.filter(emp => 
@@ -74,9 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const statusClass = emp.status;
             const statusText = {
-                'active': '运行中',
-                'idle': '空闲',
-                'error': '异常'
+                'active': '业务处理中',
+                'idle': '待命中',
+                'error': '需复核'
             }[emp.status];
 
             tr.innerHTML = `
@@ -119,76 +120,83 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderTable();
 
-    statusFilter.addEventListener('change', (e) => {
-        renderTable(e.target.value);
-    });
+    if(statusFilter) {
+        statusFilter.addEventListener('change', (e) => {
+            renderTable(e.target.value);
+        });
+    }
 
     // --- 4. Charts Implementation ---
     function initDashboardCharts() {
         // Chart 1: Efficiency Trend
-        const effChart = echarts.init(document.getElementById('efficiencyChart'));
-        effChart.setOption({
-            backgroundColor: 'transparent',
-            tooltip: { trigger: 'axis' },
-            grid: { top: '10%', left: '3%', right: '4%', bottom: '3%', containLabel: true },
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                axisLine: { lineStyle: { color: '#555' } },
-                axisLabel: { color: '#a0a0a0' }
-            },
-            yAxis: {
-                type: 'value',
-                splitLine: { lineStyle: { color: '#333', type: 'dashed' } },
-                axisLabel: { color: '#a0a0a0' }
-            },
-            series: [{
-                name: '平均效益',
-                type: 'line',
-                smooth: true,
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                itemStyle: { color: '#6c5dd3' },
-                areaStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: 'rgba(108, 93, 211, 0.5)' },
-                        { offset: 1, color: 'rgba(108, 93, 211, 0)' }
-                    ])
-                }
-            }]
-        });
+        const effChartDom = document.getElementById('efficiencyChart');
+        if(effChartDom) {
+            const effChart = echarts.init(effChartDom);
+            effChart.setOption({
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis' },
+                grid: { top: '10%', left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    axisLine: { lineStyle: { color: '#555' } },
+                    axisLabel: { color: '#a0a0a0' }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: '#333', type: 'dashed' } },
+                    axisLabel: { color: '#a0a0a0' }
+                },
+                series: [{
+                    name: '替代人工工时',
+                    type: 'line',
+                    smooth: true,
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    itemStyle: { color: '#6c5dd3' },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(108, 93, 211, 0.5)' },
+                            { offset: 1, color: 'rgba(108, 93, 211, 0)' }
+                        ])
+                    }
+                }]
+            });
+
+            window.addEventListener('resize', () => effChart.resize());
+        }
 
         // Chart 2: Performance Monitor
-        const perfChart = echarts.init(document.getElementById('performanceChart'));
-        perfChart.setOption({
-            backgroundColor: 'transparent',
-            tooltip: { trigger: 'item' },
-            series: [{
-                name: '系统状态',
-                type: 'pie',
-                radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                itemStyle: {
-                    borderRadius: 10,
-                    borderColor: '#1f1f1f',
-                    borderWidth: 2
-                },
-                label: { show: false, position: 'center' },
-                emphasis: {
-                    label: { show: true, fontSize: 20, fontWeight: 'bold', color: '#fff' }
-                },
-                data: [
-                    { value: 1048, name: '正常运行', itemStyle: { color: '#2ecc71' } },
-                    { value: 735, name: '高负载', itemStyle: { color: '#f1c40f' } },
-                    { value: 580, name: '休眠', itemStyle: { color: '#34495e' } },
-                    { value: 484, name: '异常', itemStyle: { color: '#e74c3c' } }
-                ]
-            }]
-        });
+        const perfChartDom = document.getElementById('performanceChart');
+        if(perfChartDom) {
+            const perfChart = echarts.init(perfChartDom);
+            perfChart.setOption({
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'item' },
+                series: [{
+                    name: '业务场景分布',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#1f1f1f',
+                        borderWidth: 2
+                    },
+                    label: { show: false, position: 'center' },
+                    emphasis: {
+                        label: { show: true, fontSize: 20, fontWeight: 'bold', color: '#fff' }
+                    },
+                    data: [
+                        { value: 1048, name: '供应链域', itemStyle: { color: '#2ecc71' } },
+                        { value: 735, name: '门店运营', itemStyle: { color: '#f1c40f' } },
+                        { value: 580, name: '职能支持', itemStyle: { color: '#34495e' } },
+                        { value: 484, name: '风险控制', itemStyle: { color: '#e74c3c' } }
+                    ]
+                }]
+            });
 
-        window.addEventListener('resize', () => {
-            effChart.resize();
-            perfChart.resize();
-        });
+            window.addEventListener('resize', () => perfChart.resize());
+        }
     }
 
     // --- 5. Modal Logic ---
@@ -238,15 +246,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalDept').innerText = emp.dept;
         
         const statusBadge = document.getElementById('modalStatusBadge');
-        statusBadge.innerText = emp.status === 'active' ? '运行中' : (emp.status === 'idle' ? '空闲' : '异常');
+        statusBadge.innerText = emp.status === 'active' ? '业务处理中' : (emp.status === 'idle' ? '待命中' : '需复核');
         
         // Populate Logs (Mock)
         const logList = document.getElementById('modalLogList');
-        logList.innerHTML = `
-            <li><span class="time">10:32</span> 成功完成任务：${emp.currentTask}</li>
-            <li><span class="time">09:15</span> 系统自检通过</li>
-            <li><span class="time">09:00</span> 启动运行</li>
-        `;
+        if(logList) {
+            logList.innerHTML = `
+                <li><span class="time">10:32</span> 成功完成任务：${emp.currentTask}</li>
+                <li><span class="time">09:15</span> 系统自检通过</li>
+                <li><span class="time">09:00</span> 启动运行</li>
+            `;
+        }
 
         // Render Kanban Board
         renderKanban(emp);
@@ -266,11 +276,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     backgroundColor: 'transparent',
                     radar: {
                         indicator: [
-                            { name: '逻辑', max: 100 },
-                            { name: '速度', max: 100 },
-                            { name: '准确', max: 100 },
-                            { name: '创造', max: 100 },
-                            { name: '稳定', max: 100 }
+                            { name: '业务理解', max: 100 },
+                            { name: '响应时效', max: 100 },
+                            { name: '合规风控', max: 100 },
+                            { name: '决策建议', max: 100 },
+                            { name: '全天候值守', max: 100 }
                         ],
                         shape: 'circle',
                         splitNumber: 5,
@@ -283,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         type: 'radar',
                         data: [{
                             value: emp.abilities,
-                            name: '能力评估',
+                            name: '岗位胜任力',
                             itemStyle: { color: '#6c5dd3' },
                             areaStyle: { color: 'rgba(108, 93, 211, 0.4)' }
                         }]
@@ -392,8 +402,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Update Counters in DOM
-        // Assumes structure: .kanban-column > .k-header > .count
-        // We find the .count element relative to the list element
         if (todoList.previousElementSibling) {
             const countSpan = todoList.previousElementSibling.querySelector('.count');
             if (countSpan) countSpan.innerText = todoCount;
@@ -408,20 +416,125 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.remove('show');
-    });
+    if(closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+    }
 
     // Close modal on click outside
-    modal.addEventListener('click', (e) => {
+    window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.remove('show');
         }
     });
     
     // Add Employee Mock Button
-    document.getElementById('addEmployeeBtn').addEventListener('click', () => {
-        alert('新建数字员工流程：\n1. 选择“新建模式”或“申请入职模式”\n2. 配置基础信息\n3. 部署模型');
-    });
-});
+    const addEmpBtn = document.getElementById('addEmployeeBtn');
+    const newEmpModal = document.getElementById('newEmployeeModal');
+    const closeNewEmpModalBtn = document.getElementById('closeNewEmployeeModal');
+    const submitAppBtn = document.getElementById('submitApplicationBtn');
 
+    if(addEmpBtn) {
+        addEmpBtn.addEventListener('click', () => {
+            // Open the new application modal instead of alert
+            if(newEmpModal) newEmpModal.classList.add('show');
+        });
+    }
+
+    if(closeNewEmpModalBtn && newEmpModal) {
+        closeNewEmpModalBtn.addEventListener('click', () => {
+            newEmpModal.classList.remove('show');
+        });
+    }
+
+    // Avatar Selection Logic
+    const avatarOptions = document.querySelectorAll('.avatar-option');
+    avatarOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+            avatarOptions.forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+        });
+    });
+
+    // Process Selection Logic
+    const processCards = document.querySelectorAll('.process-card');
+    processCards.forEach(card => {
+        card.addEventListener('click', () => {
+            processCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        });
+    });
+
+    // Submit Logic
+    if(submitAppBtn && newEmpModal) {
+        submitAppBtn.addEventListener('click', () => {
+            const nameInput = document.getElementById('newEmpName');
+            const name = nameInput ? nameInput.value : '新数字员工';
+            const deptInput = document.getElementById('newEmpDept');
+            const dept = deptInput ? deptInput.value : '未知部门';
+            
+            alert(`申请已提交！\n\n姓名：${name}\n部门：${dept}\n\n已关联流程资产，正在进行技能匹配与资源预估...\n请前往【入职审批】页面查看进度。`);
+            newEmpModal.classList.remove('show');
+            
+            // Optional: Trigger the badge on 'Approval' menu to simulate a new request coming in
+            const navApproval = document.getElementById('navApproval');
+            if(navApproval) {
+                let badge = navApproval.querySelector('.sidebar-badge');
+                if(!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'sidebar-badge';
+                    navApproval.appendChild(badge);
+                }
+                // Parse current value and increment
+                const currentVal = parseInt(badge.innerText) || 0;
+                badge.innerText = currentVal + 1;
+                badge.style.display = 'inline-block';
+            }
+        });
+    }
+
+    // --- 6. Approval Modal Logic (New) ---
+    // (This part is handled by approval.js, but we listen for the event here)
+    
+    // Listen for approval event from approval.js
+    document.addEventListener('employeeApproved', (e) => {
+        const newEmp = e.detail;
+        employees.push(newEmp);
+        renderTable();
+    });
+
+    // --- 7. Real-time Task Counter ---
+    function startRealTimeTaskCounter() {
+        const counterEl = document.getElementById('realTimeTasks'); // Fixed ID
+        if (!counterEl) return;
+
+        let count = 172;
+        
+        // Random update loop
+        const update = () => {
+            // Add random 1-3 tasks
+            const increment = Math.floor(Math.random() * 3) + 1;
+            count += increment;
+            counterEl.innerText = count.toLocaleString(); // Add commas
+
+            // Animation
+            counterEl.style.transition = 'transform 0.1s, color 0.1s';
+            counterEl.style.transform = 'scale(1.1)';
+            counterEl.style.color = '#00ffff'; // Cyan color for flash
+            
+            setTimeout(() => {
+                counterEl.style.transform = 'scale(1)';
+                counterEl.style.color = ''; 
+            }, 150);
+
+            // Random next update interval: 800ms to 2500ms
+            const nextInterval = Math.floor(Math.random() * 1700) + 800;
+            setTimeout(update, nextInterval);
+        };
+
+        setTimeout(update, 1000);
+    }
+    
+    startRealTimeTaskCounter();
+});

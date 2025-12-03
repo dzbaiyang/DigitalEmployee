@@ -1,0 +1,7 @@
+.icon-box.cyan { background: rgba(0, 255, 255, 0.1); color: #00ffff; }
+
+/* Removed flashing animation to prevent recording flicker */
+.trend.flashing {
+    color: #00ffff;
+}
+

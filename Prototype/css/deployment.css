@@ -1,0 +1,127 @@
+/* --- Deployment Animation Overlay --- */
+.deployment-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.5s;
+}
+
+.deployment-overlay.show {
+    display: flex;
+}
+
+.deployment-container {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+.deployment-avatar {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 30px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 0 50px rgba(108, 93, 211, 0.5);
+}
+
+.deployment-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #4cd964;
+    box-shadow: 0 0 10px #4cd964;
+    animation: scan 2s infinite linear;
+}
+
+@keyframes scan {
+    0% { top: -10%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+}
+
+.deploy-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #fff, #aaa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.deploy-subtitle {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 40px;
+}
+
+.deploy-progress-container {
+    width: 100%;
+    height: 6px;
+    background: #222;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.deploy-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), #4cd964);
+    width: 0%;
+    transition: width 3s linear;
+    border-radius: 3px;
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+.deploy-steps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.d-step {
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.d-step.active {
+    color: #4cd964;
+}
+
+.d-step.processing {
+    color: var(--primary-color);
+}
+
+.d-step.pending {
+    color: #555;
+}
+
+/* Utility Animation */
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+

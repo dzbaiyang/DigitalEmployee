@@ -1,0 +1,208 @@
+/* Wizard Layout */
+.wizard-layout {
+    width: 800px;
+    height: 600px;
+    flex-direction: column;
+    padding: 0;
+}
+
+.wizard-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.wizard-header h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.step-item {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: #252525;
+}
+
+.step-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.step-line {
+    width: 40px;
+    height: 2px;
+    background: #333;
+}
+
+.wizard-body {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+}
+
+.wizard-step {
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.wizard-step.active {
+    display: block;
+}
+
+/* Avatar Selector */
+.avatar-selector {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.avatar-option {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.2s;
+    opacity: 0.7;
+}
+
+.avatar-option:hover {
+    opacity: 1;
+}
+
+.avatar-option.selected {
+    border-color: var(--primary-color);
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(108, 93, 211, 0.5);
+}
+
+.avatar-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-section label,
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.full-width {
+    width: 100%;
+    background: #141414;
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 10px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.info-box {
+    background: rgba(52, 152, 219, 0.1);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #3498db;
+    margin-bottom: 24px;
+}
+
+.asset-preview {
+    margin-top: 24px;
+    background: #252525;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.asset-preview h4 {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+}
+
+.asset-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.asset-tags .tag {
+    background: #333;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Review Step */
+.review-card {
+    background: #252525;
+    padding: 24px;
+    border-radius: 12px;
+    width: 60%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.review-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.success-tip {
+    text-align: center;
+    margin-top: 30px;
+    color: var(--success-color);
+}
+
+.success-tip i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.wizard-footer {
+    padding: 16px 32px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background: #1a1a1a;
+}
+

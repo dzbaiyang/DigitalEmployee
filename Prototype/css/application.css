@@ -1,0 +1,181 @@
+/* --- Application Modal Layout --- */
+.application-layout {
+    width: 900px;
+    height: 80vh;
+    flex-direction: column;
+    padding: 0;
+}
+
+.application-body {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background: var(--bg-card);
+}
+
+.app-section {
+    margin-bottom: 32px;
+}
+
+.app-section h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 10px;
+}
+
+.section-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    margin-top: -10px;
+}
+
+/* Avatar Selector */
+.avatar-selector {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.avatar-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.2s;
+    flex-shrink: 0; /* Prevent container from shrinking */
+}
+
+.avatar-option img {
+    width: 64px;
+    height: 64px;
+    min-width: 64px; /* Force minimum width */
+    min-height: 64px; /* Force minimum height */
+    border-radius: 50%;
+    object-fit: cover; 
+    object-position: center top;
+    border: 2px solid transparent;
+    padding: 2px;
+    background: #fff;
+    flex-shrink: 0; /* Prevent image itself from shrinking */
+}
+
+.avatar-option.selected img {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(108, 93, 211, 0.5);
+}
+
+.avatar-option span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.avatar-option.selected span {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.form-select {
+    width: 100%;
+    background: #141414;
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Process Selector */
+.process-selector {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.process-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #141414;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.process-card:hover {
+    border-color: var(--primary-color);
+    background: rgba(108, 93, 211, 0.05);
+}
+
+.process-card.selected {
+    border-color: var(--primary-color);
+    background: rgba(108, 93, 211, 0.1);
+}
+
+.p-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+.process-card.selected .p-icon {
+    color: var(--primary-color);
+}
+
+.p-info {
+    flex: 1;
+}
+
+.p-info h5 {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.p-info span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.p-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    font-size: 0.8rem;
+}
+
+.process-card.selected .p-check {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.tip-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+

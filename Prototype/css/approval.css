@@ -1,0 +1,293 @@
+/* --- Approval Modal Layout --- */
+.approval-layout {
+    width: 1300px; /* Matched with layout-v2 */
+    max-width: 96%;
+    height: 85vh; /* Matched with layout-v2 */
+    flex-direction: column;
+    padding: 0; 
+}
+
+.approval-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.app-meta h3 {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.app-id {
+    font-family: monospace;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.app-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.status-dot.processing { background: #3498db; box-shadow: 0 0 8px #3498db; }
+
+.approval-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    overflow: hidden;
+}
+
+.approval-config {
+    background: #181818;
+    padding: 24px;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+.approval-process {
+    padding: 24px;
+    background: var(--bg-card);
+    overflow-y: auto;
+}
+
+.approval-body h4 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Config Card Styles */
+.config-card {
+    background: #252525;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+/* Avatar in Config */
+.config-header-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.config-avatar {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary-color);
+    background: #000;
+}
+
+.config-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.config-info-col {
+    flex: 1;
+}
+
+.config-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+}
+
+.config-row.highlight {
+    background: rgba(255,255,255,0.03);
+    padding: 6px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.badge-purple {
+    background: rgba(108, 93, 211, 0.2);
+    color: var(--primary-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 16px 0;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    background: #141414;
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    background: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* Process Timeline */
+.process-timeline {
+    position: relative;
+    margin-left: 10px;
+    padding-left: 20px;
+    border-left: 2px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.process-timeline .step {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.process-timeline .step-icon {
+    position: absolute;
+    left: -31px; /* line width 2 + padding 20 + half icon */
+    width: 24px;
+    height: 24px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    z-index: 2;
+}
+
+.step.completed .step-icon {
+    background: var(--success-color);
+    border-color: var(--success-color);
+    color: white;
+}
+
+.step.active .step-icon {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 0 4px rgba(108, 93, 211, 0.2);
+}
+
+.step-content h5 {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.step-content .time {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.step-content .metric {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+.metric.good { background: rgba(46, 204, 113, 0.1); color: var(--success-color); }
+.metric.warn { background: rgba(241, 196, 15, 0.1); color: var(--warning-color); }
+
+/* Process Charts */
+.process-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.mini-chart-box {
+    background: #141414;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.mini-chart-box h5 {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.progress-bar-thick {
+    background: #333;
+    height: 24px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-thick .fill {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: bold;
+}
+.fill.green { background: var(--success-color); }
+
+.roi-stat {
+    font-size: 1.1rem;
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.approval-footer {
+    padding: 16px 32px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1a;
+}
