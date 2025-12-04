@@ -568,15 +568,15 @@
                     <p style="color: #666; font-size: 0.9rem; letter-spacing: 1px;">POWERED BY DIGITAL EMPLOYEE TRAINING GROUND</p>
                 </div>
 
-                <!-- Step Navigation -->
+                <!-- Wizard Steps -->
                 <div class="wizard-steps">
                     <div class="w-step active" data-step="1">
                         <div class="w-step-num">1</div>
-                        <span>基础画像</span>
+                        <span>数字员工训练场</span>
                     </div>
                     <div class="w-step" data-step="2">
                         <div class="w-step-num">2</div>
-                        <span>数字员工训练场</span>
+                        <span>基础画像</span>
                     </div>
                     <div class="w-step" data-step="3">
                         <div class="w-step-num">3</div>
@@ -587,69 +587,60 @@
                 <!-- Step Content Container -->
                 <div class="step-content-container">
                     
-                    <!-- Step 1: Identity (Left/Right Split) -->
+                    <!-- Step 1: Training Ground (Role Selection - Split Layout) -->
                     <div class="step-view active" id="stepView1">
+                        <div class="training-ground">
+                            <!-- Left: Model List -->
+                            <div class="model-list" id="modelListContainer">
+                                <!-- JS Injected List Items -->
+                            </div>
+                            <!-- Right: Preview -->
+                            <div class="model-preview" id="modelPreviewContainer">
+                                <!-- JS Injected Details -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Basic Info (Avatar + Form) -->
+                    <div class="step-view" id="stepView2">
                         <div class="identity-section">
                             <!-- Left: Avatar Grid -->
-                            <div class="avatar-grid">
-                                <!-- Contract Assistant (Default) -->
-                                <div class="avatar-item selected" data-src="../gif/合同审核.gif">
-                                    <img src="../gif/合同审核.gif">
-                                </div>
-                                <!-- Cartoons -->
-                                <div class="avatar-item" data-src="../Materials/头像1.png">
-                                    <img src="../Materials/头像1.png">
-                                </div>
-                                <div class="avatar-item" data-src="../Materials/头像2.png">
-                                    <img src="../Materials/头像2.png">
-                                </div>
-                                <div class="avatar-item" data-src="../Materials/头像3.png">
-                                    <img src="../Materials/头像3.png">
-                                </div>
-                                <div class="avatar-item" data-src="../Materials/头像4.png">
-                                    <img src="../Materials/头像4.png">
-                                </div>
+                            <div class="avatar-grid" id="avatarGrid">
+                                <!-- JS Injected Avatars -->
                             </div>
 
                             <!-- Right: Form -->
                             <div class="form-area-wrapper">
+                                <div class="form-header-tip">
+                                    <i class="fa-solid fa-circle-info"></i> 
+                                    <span>已根据所选训练场模型为您预填基础信息</span>
+                                </div>
                                 <div class="form-row">
                                     <div class="custom-input-group">
                                         <label>拟定姓名</label>
-                                        <input type="text" class="custom-input" id="wizName" value="合同小助手">
+                                        <input type="text" class="custom-input" id="wizName" placeholder="请输入数字员工姓名">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="custom-input-group">
                                         <label>拟定职位</label>
-                                        <input type="text" class="custom-input" id="wizRole" value="法务审核专员">
+                                        <input type="text" class="custom-input" id="wizRole" placeholder="请输入职位名称">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="custom-input-group">
                                         <label>所属部门</label>
                                         <select class="custom-input" id="wizDept">
-                                            <option selected>法务部</option>
                                             <option>财务部</option>
-                                            <option>人力资源部</option>
                                             <option>供应链部</option>
+                                            <option>人力资源部</option>
+                                            <option>客户服务部</option>
+                                            <option>法务部</option>
+                                            <option>采购部</option>
+                                            <option>开发部</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Training Ground (The New Core) -->
-                    <div class="step-view" id="stepView2">
-                        <div class="training-ground">
-                            <!-- Left: Model List -->
-                            <div class="model-list" id="modelListContainer">
-                                <!-- JS Injected Cards -->
-                            </div>
-                            <!-- Right: Preview -->
-                            <div class="model-preview" id="modelPreviewContainer">
-                                <!-- JS Injected Details -->
                             </div>
                         </div>
                     </div>
